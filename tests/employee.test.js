@@ -1,7 +1,5 @@
-const { default: test } = require('node:test');
-const { hasUncaughtExceptionCaptureCallback } = require('process');
 const Employee = require('../lib/employee');
-const newEmployee = new Employee ('john', '1234', 'johnsummit@gmail.com');
+const employee = new Employee ('john', '1234', 'johnsummit@gmail.com');
 
 
 test('test if we can get the constructor values for the employee object', () => {
