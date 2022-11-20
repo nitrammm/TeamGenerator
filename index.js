@@ -2,11 +2,11 @@ const inquirer = require('inquirer');
 const Manager = require('./lib/manager');
 const Engineer = require('./lib/engineer');
 const Intern = require('./lib/intern');
-const generateSite = require('./src/generate-site');
+const makeSite = require('./src/generate-site');
 const fs = require("fs");
 const path = require("path");
-const OUTPUT_DIR = path.resolve(__dirname, "output");
-const outputPath = path.join(OUTPUT_DIR, "team.html");
+const outputDir = path.resolve(__dirname, "output");
+const outputPath = path.join(outputDir, "team.html");
 const myMembers = [];
 
 const getManager = () => {
@@ -225,10 +225,10 @@ const getIntern = () => {
 const buildMyTeam = () => {
     console.log('Finished building my team!');
 
-    if (!fs.existsSync(OUTPUT_DIR)) {
-        fs.mkdirSync(OUTPUT_DIR)
+    if (!fs.existsSync(outputDir)) {
+        fs.mkdirSync(outputDir)
     }
-    fs.writeFileSync(outputPath, generateSite(myMembers), "utf-8");
+    fs.writeFileSync(outputPath, makeSite(myMembers), "utf-8");
 }
 
 getManager();
