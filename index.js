@@ -7,9 +7,9 @@ const fs = require("fs");
 const path = require("path");
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
-const teamMembers = [];
+const myMembers = [];
 
-const promptManager = () => {
+const getManager = () => {
     return inquirer.prompt([
         {
             type: 'input',
@@ -27,7 +27,7 @@ const promptManager = () => {
         {
             type: 'input',
             name: 'employeeId',
-            message: 'Enter your employee ID.',
+            message: 'What is your employee ID?',
             validate: employeeId => {
                 if (employeeId) {
                     return true;
@@ -40,7 +40,7 @@ const promptManager = () => {
         {
             type: 'input',
             name: 'email',
-            message: 'Enter your email address.',
+            message: 'What is your email?',
             validate: email => {
                 if (email) {
                     return true;
@@ -53,7 +53,7 @@ const promptManager = () => {
         {
             type: 'input',
             name: 'officeNumber',
-            message: 'Enter your office number.',
+            message: 'What is your office number?',
             validate: officeNumber => {
                 if (officeNumber) {
                     return true;
@@ -65,43 +65,43 @@ const promptManager = () => {
         },
     ]).then(answers => {
         console.log(answers);
-        const manager = new Manager(answers.name, answers.employeeId, answers.email, answers.officeNumber);
-        teamMembers.push(manager);
-        promptMenu();
+        const managerStats = new Manager(answers.name, answers.employeeId, answers.email, answers.officeNumber);
+        myMembers.push(managerStats);
+        askMenu();
     })
 }
 
 
-const promptMenu = () => {
+const askMenu = () => {
     return inquirer.prompt([
         {
             type: 'list',
             name: 'menu',
-            message: 'Please select which option you would like to continue with:',
-            choices: ['add an engineer', 'add an intern', 'finish building my team']
+            message: 'Please select a team member:',
+            choices: ['Add Engineer', 'Add Intern', 'Finish building my team.']
         }])
         .then(userChoice => {
             switch(userChoice.menu) {
-                case "add an engineer":
-                    promptEngineer();
+                case "Add Engineer":
+                    getEngineer();
                     break;
-                case "add an intern":
-                    promptIntern();
+                case "Add Intern":
+                    getIntern();
                     break;
                 default:
-                    buildTeam();
+                    buildMyTeam();
             }
         });
 }
 
-const promptEngineer = () => {
+const getEngineer = () => {
     console.log('Add a new Engineer');
 
     return inquirer.prompt([
         {
             type: 'input',
             name: 'name',
-            message: 'What is the name of engineer?',
+            message: 'What is the name of the engineer?',
             validate: engineerName => {
                 if (engineerName) {
                     return true;
@@ -152,13 +152,13 @@ const promptEngineer = () => {
         }
     ]).then(answers => {
         console.log(answers);
-        const engineer = new Engineer(answers.name, answers.employeeId, answers.email, answers.githubUsername);
-        teamMembers.push(engineer);
-        promptMenu();
+        const engineerStats = new Engineer(answers.name, answers.employeeId, answers.email, answers.githubUsername);
+        myMembers.push(engineerStats);
+        askMenu();
     });
 }
 
-const promptIntern = () => {
+const getIntern = () => {
     console.log('Add a new Intern');
 
     return inquirer.prompt([
@@ -178,7 +178,7 @@ const promptIntern = () => {
         {
             type: 'input',
             name: 'employeeId',
-            message: 'Enter your employee ID.',
+            message: 'What is your employee ID?',
             validate: employeeId => {
                 if (employeeId) {
                     return true;
@@ -191,7 +191,7 @@ const promptIntern = () => {
         {
             type: 'input',
             name: 'email',
-            message: 'Enter your email address.',
+            message: 'What is your email address?',
             validate: email => { 
                 if(email) {
                     return true;
@@ -204,7 +204,7 @@ const promptIntern = () => {
         {
             type: 'input',
             name: 'school',
-            message: 'Enter your school name.',
+            message: 'What is your school name?',
             validate: school => {
                 if(school) {
                     return true;
@@ -216,19 +216,19 @@ const promptIntern = () => {
         }
     ]).then(answers => {
         console.log(answers);
-        const intern = new Intern(answers.name, answers.employeeId, answers.email, answers.school);
-        teamMembers.push(intern);
-        promptMenu();
+        const internStats = new Intern(answers.name, answers.employeeId, answers.email, answers.school);
+        myMembers.push(internStats);
+        askMenu();
     });
 }
 
-const buildTeam = () => {
+const buildMyTeam = () => {
     console.log('Finished building my team!');
 
     if (!fs.existsSync(OUTPUT_DIR)) {
         fs.mkdirSync(OUTPUT_DIR)
     }
-    fs.writeFileSync(outputPath, generateSite(teamMembers), "utf-8");
+    fs.writeFileSync(outputPath, generateSite(myMembers), "utf-8");
 }
 
-promptManager();
+getManager();

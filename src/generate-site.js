@@ -1,11 +1,11 @@
-const generateTeam = (team) => {
+const buildTeam = (team) => {
     console.log(team);
 
-    const html = [];
+    const website = [];
 
-    const generateManager = manager => {
+    const buildManager = manager => {
         console.log(manager);
-        let managerHtml = `
+        let managerWebsite = `
         <div class="card" style="width: 18rem;">
             <div class="card-header">
             ${manager.name} <br/>
@@ -17,12 +17,12 @@ const generateTeam = (team) => {
             </ul>
         </div>
         `;
-        html.push(managerHtml);
+        website.push(managerWebsite);
     }
 
-    const generateEngineer = engineer => {
+    const buildEngineer = engineer => {
         console.log(engineer);
-        let engineerHtml = `
+        let engineerWebsite = `
         <div class="card" style="width: 18rem;">
             <div class="card-header">
             ${engineer.name} <br/>
@@ -34,12 +34,12 @@ const generateTeam = (team) => {
             </ul>
         </div>
         `;
-        html.push(engineerHtml);
+        website.push(engineerWebsite);
     }
 
-    const generateIntern = intern => {
+    const buildIntern = intern => {
         console.log(intern);
-        let internHtml = `
+        let internWebsite = `
         <div class="card" style="width: 18rem;">
             <div class="card-header">
             ${intern.name} <br/>
@@ -51,22 +51,22 @@ const generateTeam = (team) => {
             </ul>
         </div>
         `;
-        html.push(internHtml);
+        website.push(internWebsite);
     }
 
     for (let i = 0; i < team.length; i++) {
         if (team[i].getRole() === 'Manager') {
-            generateManager(team[i]);
+            buildManager(team[i]);
         }
         if (team[i].getRole() === 'Engineer') {
-            generateEngineer(team[i]);
+            buildEngineer(team[i]);
         }
         if (team[i].getRole() === 'Intern') {
-            generateIntern(team[i]);
+            buildIntern(team[i]);
         }
     }
 
-    return html.join('');
+    return website.join('');
 }
     module.exports = team => {
         return `
@@ -86,7 +86,7 @@ const generateTeam = (team) => {
         <h1>My Team</h1>
         </header>
 
-    <main> ${generateTeam(team)} </main>
+    <main> ${buildTeam(team)} </main>
 
 
     
